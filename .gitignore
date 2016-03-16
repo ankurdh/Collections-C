@@ -57,3 +57,7 @@ test/hashset_test
 test/array_test
 
 test/deque_test
+
+*.swp
+
+test/heap_test
