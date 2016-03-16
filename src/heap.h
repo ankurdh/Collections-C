@@ -7,8 +7,13 @@
 /**
  *   A Priority Queue implementation with a min heap
  */
-
-typedef struct heap_s Heap;
+typedef struct heap_s {
+	Array *v;
+	    
+	void *(*mem_alloc)  (size_t size);
+	void *(*mem_calloc) (size_t blocks, size_t size);
+	void  (*mem_free)   (void *block);
+} Heap;
 
 typedef ArrayConf HeapConf;
 

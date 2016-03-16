@@ -1,13 +1,6 @@
 #include "array.h"
 #include "heap.h"
 
-struct heap_s {
-    Array *v;
-
-    void *(*mem_alloc)  (size_t size);
-    void *(*mem_calloc) (size_t blocks, size_t size);
-    void  (*mem_free)   (void *block);
-};
 
 /**
  * Initializes the fields of the HeapConf struct to default values.
@@ -107,5 +100,5 @@ bool heap_insert(Heap *heap, void *element)
  */
 void heap_foreach(Heap *heap, void (*op) (void *))
 {
-	    array_foreach(heap->v, op);
+	array_foreach(heap->v, op);
 }
