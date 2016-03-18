@@ -1,21 +1,24 @@
 #include "../src/heap.h"
 #include "test.h"
-#include <string.h>
+#include "../src/array.h"
 
 void test_heap_insert();
-void test_heap_pop();
 
 int main(int argc, char **argv)
 {
-	cc_set_exit_on_failure(false);
 
 	test_heap_insert();
-	
 	return cc_get_status();
+}
+
+void print_val(void *val)
+{
+	printf("%d ", *(int*)val);
 }
 
 void test_heap_insert()
 {
+	printf("Hello World\n");
 	Heap *heap = heap_new();
 
 	int a = 1, b = 2, c = 3;
@@ -23,5 +26,9 @@ void test_heap_insert()
 	heap_insert(heap, &a);
 	heap_insert(heap, &b);
 	heap_insert(heap, &c);
+
+	//heap_foreach(heap, print_val);
+
+	cc_assert(*(int *)array_get(heap->v, 2) == c, cc_msg("stack_pop: Top stack element not as expected"));
 
 }

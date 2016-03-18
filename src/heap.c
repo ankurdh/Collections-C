@@ -1,6 +1,6 @@
 #include "array.h"
 #include "heap.h"
-
+#include <stdio.h>
 
 /**
  * Initializes the fields of the HeapConf struct to default values.
@@ -77,16 +77,23 @@ void heap_destroy_free(Heap *heap)
  */
 bool heap_insert(Heap *heap, void *element)
 {
+	if (array_size(heap->v) == 0)
+		return array_add(heap->v, element);
+
 	size_t pos = array_size(heap->v) + 1;
 	
 	for(; pos > 1; pos = pos/2 )
-		if(element > array_get(heap->v, pos/2))
+	{
+		int *val = (int *) array_get(heap->v, pos/2);
+		if(*(int *)element > *val)
 			if(!array_add_at(heap->v, array_get(heap->v, pos/2), pos))
 				return false;
+	}
 
 	if(pos > array_capacity(heap->v))
 	       	return array_add(heap->v, element);
 			
+	printf("Inserting at Pos: %d\n" , (int)pos);
 	return array_add_at(heap->v, element, pos);
 }
 
