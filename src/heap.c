@@ -77,24 +77,53 @@ void heap_destroy_free(Heap *heap)
  */
 bool heap_insert(Heap *heap, void *element)
 {
-	if (array_size(heap->v) == 0)
-		return array_add(heap->v, element);
+	array_add(heap->v, element);
 
-	size_t pos = array_size(heap->v) + 1;
+	size_t pos = array_size(heap->v) - 1;
 	
-	for(; pos > 1; pos = pos/2 )
+	for(; pos > 0; pos = pos/2 )
 	{
-		int *val = (int *) array_get(heap->v, pos/2);
-		if(*(int *)element > *val)
-			if(!array_add_at(heap->v, array_get(heap->v, pos/2), pos))
+		void *val = array_get(heap->v, pos/2);
+		printf("Comparing: %d and %d\n", *(int *)element, *(int *)val);
+		if(*(int *)element > *(int *)val)
+		{
+			printf("Inserting %d at [%d]\n", *(int *) array_get(heap->v, pos/2), (int)pos);
+			if(!array_replace_at(heap->v, array_get(heap->v, pos/2), pos))
+			{
+				printf("Inserting failed.\n");
 				return false;
+			}
+		}
+		else
+			break;
 	}
 
-	if(pos > array_capacity(heap->v))
-	       	return array_add(heap->v, element);
-			
-	printf("Inserting at Pos: %d\n" , (int)pos);
-	return array_add_at(heap->v, element, pos);
+	printf("Replacing element at [%d] with %d\n", (int)pos, *(int *)element);
+	if(array_replace_at(heap->v, element, pos))
+		return true;
+	else
+		return false;
+}
+
+/**
+ * Given a heap and an index, this function pushes the element downwards to retain the heap.
+ *
+ * @param[in] heap the heap in which the element is to be added
+ * @param[in] element the element which is supposed to be added
+ */
+void push_element_down(Heap *heap, size_t pos)
+{
+
+}
+
+/**
+ * Deletes the greatest element from the heap
+ *
+ * @param[in] heap the heap from which the element is to be deleted.
+ */
+void *heap_delete (Heap *heap)
+{
+
 }
 
 /**
